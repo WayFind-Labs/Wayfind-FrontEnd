@@ -47,19 +47,21 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  // Only handle GET requests for navigation and same-origin assets
-  if (event.request.method !== "GET") return;
+  // Only handle GET requests for same-origin HTTP/HTTPS assets
+  if (
+    event.request.method !== "GET" ||
+    !event.request.url.startsWith(self.location.origin) ||
+    event.request.url.includes("/_next/webpack-hmr")
+  ) {
+    return;
+  }
 
-  // Let browser handle standard fetch by default; offline caching strategy will be plugged in here
   event.respondWith(
     fetch(event.request).catch(async () => {
       const cached = await caches.match(event.request);
       if (cached) return cached;
-      return new Response("Offline - Service temporarily unavailable", {
-        status: 503,
-        statusText: "Service Unavailable",
-        headers: new Headers({ "Content-Type": "text/plain" })
-      });
+      // If offline and request is HTML navigation, could return offline page
+      return new Response("", { status: 408, statusText: "Request Timeout" });
     })
   );
 });
