@@ -1,0 +1,74 @@
+:root {
+  /* Wayfind Color Tokens */
+  --bg: #F1EFE9;
+  --surface: #FFFFFF;
+  --surface-sunken: #EAE7DF;
+  --border: #DBD6C9;
+  --border-strong: #C7C1B1;
+  --ink: #1B211E;
+  --muted: #6B6F65;
+  --muted-2: #8A8D82;
+  --accent: #A15A2B;
+  --accent-ink: #7C4620;
+  --accent-tint: #F1E2D2;
+  --teal: #2C4B49;
+  --teal-tint: #E3EAE8;
+  --success: #5C7A3E;
+  --success-tint: #E6EBD9;
+  --warning: #B4842B;
+  --warning-tint: #F3E7D0;
+  --error: #9C3C2E;
+  --error-tint: #F3E0DB;
+  --info: #495F6D;
+  --info-tint: #E4E9EB;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(27, 33, 30, 0.08), 0 1px 1px rgba(27, 33, 30, 0.04);
+  --shadow-md: 0 8px 24px rgba(27, 33, 30, 0.14), 0 2px 6px rgba(27, 33, 30, 0.08);
+
+  /* Spacing Scale */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 24px;
+  --sp-6: 32px;
+  --sp-7: 48px;
+  --sp-8: 64px;
+
+  /* Radius Scale */
+  --radius-xs: 3px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+
+  /* Typography Defaults */
+  --font-sans: var(--font-public-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-mono: var(--font-plex-mono), Menlo, Monaco, Consolas, "Liberation Mono", monospace;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  background-color: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.55;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input, select, textarea {
+  font: inherit;
+}
