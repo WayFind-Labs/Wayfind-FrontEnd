@@ -1,23 +1,21 @@
 import type { Metadata } from "next";
+import { PublicShell } from "@/components/public/PublicShell";
 
 export const metadata: Metadata = {
-  title: "Public Experience",
+  title: "Shelter AI",
+  description: "Report a found child or search for a missing child.",
 };
 
 /**
  * PublicLayout
  *
- * Structural layout for the public AI agent / conversational user experience.
- * Minimal placeholder structure awaiting visual design implementation.
+ * Wraps all public-facing routes in the mobile-first PublicShell
+ * (sticky topbar + bottom tab bar). See components/public/PublicShell.
  */
 export default function PublicLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return (
-    <div data-experience="public" style={{ minHeight: "100vh", display: "flex", flexDirection: "column" }}>
-      {children}
-    </div>
-  );
+  return <PublicShell>{children}</PublicShell>;
 }
