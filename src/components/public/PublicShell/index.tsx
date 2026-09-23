@@ -35,22 +35,24 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="public-shell">
+    <div className={`public-shell${pathname === "/" ? " agent-shell" : ""}`}>
       {/* Skip link for accessibility */}
       <a className="skip-link" href="#main-content">Skip to content</a>
 
       {/* Top bar */}
       <header className="public-topbar" role="banner">
         <div className="public-topbar-row">
-          <div className="public-topbar-start">{pathname !== "/" ? <button className="public-back" type="button" onClick={() => router.back()} aria-label="Go back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg></button> : <span className="public-back-placeholder" aria-hidden="true" />}</div>
-          <div className="public-topbar-brand">
-            <Image src="/icons/WayFindLogo.jpg" alt="" width={36} height={36} priority />
-            <span className="public-topbar-brand-copy"><strong>Wayfind</strong><small>Child safety assistant</small></span>
+          <div className="public-topbar-leading">
+            <div className="public-topbar-brand">
+              <Image src="/icons/WayFindLogo.jpg" alt="Wayfind" width={36} height={36} priority />
+              <span className="public-topbar-brand-copy"><strong>Wayfind</strong><small>Child safety assistant</small></span>
+            </div>
+            <div className="public-topbar-start">{pathname !== "/" ? <button className="public-back" type="button" onClick={() => router.back()} aria-label="Go back"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg></button> : null}</div>
           </div>
           <div className="public-topbar-actions" ref={helpMenuRef}>
-            {!isInstalled && <button className="install-header-action" type="button" onClick={() => void triggerInstall()}><span aria-hidden="true">↓</span><span>Install app</span></button>}
-            <button className="help-menu-trigger" type="button" onClick={() => setIsHelpOpen((open) => !open)} aria-expanded={isHelpOpen} aria-haspopup="menu">
-              <span>Help</span><span className="help-menu-chevron" aria-hidden="true">⌄</span>
+            {!isInstalled && <button className="install-header-action" type="button" onClick={() => void triggerInstall()}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3v12" /><path d="m7 10 5 5 5-5" /><path d="M5 21h14" /></svg><span className="install-label-desktop">Install app</span><span className="install-label-mobile">Install on phone</span></button>}
+            <button className="help-menu-trigger" type="button" onClick={() => setIsHelpOpen((open) => !open)} aria-label="Help and information" title="Help and information" aria-expanded={isHelpOpen} aria-haspopup="menu">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M9.8 9a2.3 2.3 0 1 1 3.8 1.7c-1.1.8-1.6 1.2-1.6 2.4M12 16.5h.01" /></svg>
             </button>
             {isHelpOpen && <div className="help-menu" role="menu">
               <div className="help-menu-heading">Wayfind support</div>
