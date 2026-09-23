@@ -2,29 +2,29 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Wayfind Shelter Records",
+    name: "Wayfind",
     short_name: "Wayfind",
     description:
-      "Humanitarian shelter & case-records application for shelters, case workers, and NGOs.",
+      "A child-safety AI assistant for found-child intake and missing-child searches.",
     start_url: "/",
     display: "standalone",
     background_color: "#F1EFE9",
     theme_color: "#F1EFE9",
     icons: [
       {
-        src: "/icons/icon-192.png",
+        src: "/icons/android-chrome-192x192.png",
         sizes: "192x192",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icons/icon-512.png",
+        src: "/icons/android-chrome-512x512.png",
         sizes: "512x512",
         type: "image/png",
         purpose: "any",
       },
       {
-        src: "/icons/icon-512.png",
+        src: "/icons/android-chrome-512x512.png",
         sizes: "512x512",
         type: "image/png",
         purpose: "maskable",

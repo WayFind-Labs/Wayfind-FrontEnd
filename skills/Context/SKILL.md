@@ -1,13 +1,10 @@
 ---
 name: shelter-context
 description: >
-  Authoritative product, UX, architecture, data, safety, and development context
-  for the Shelter AI PWA (also known as Wayfind internally). Read this before making
-  any architectural or implementation change. Covers the core mission, users, two-sided
-  product (public prompt experience + shelter-worker operational UI), backend architecture,
-  safety/privacy principles, found-child and missing-child workflows, and the new direct
-  found-child submission feature. Use alongside `shelter-hooks` for guardrail details and
-  `wayfind-design-system` for visual/UX rules.
+  Authoritative product, UX, architecture, safety, and development context for
+  the Wayfind public AI agent client. Wayfind focuses on found-child intake,
+  missing-child searches, and routing people to authorized child-intake shelters.
+  Use alongside `shelter-hooks` and `wayfind-design-system`.
 ---
 
 <!-- Full content lives in contextSkill.md in this same folder. -->
@@ -15,29 +12,22 @@ description: >
 
 See [`contextSkill.md`](./contextSkill.md) for the full context document.
 
-## Quick reference — frontend routes (as of current state)
+## Quick reference — frontend routes
 
 | Route | Experience | Purpose |
 |---|---|---|
-| `/` | Public | Intent selector — "I found a child" · "Looking for someone" |
-| `/report` | Public | **Found-child direct submission** — prompt-first, image upload, location |
-| `/chat` | Public | Conversational AI assistant — missing-child search, general help |
+| `/` | Public | Single prompt-first AI agent for child-safety workflows |
+| `/report` | Legacy redirect | Redirects to `/` |
+| `/chat` | Legacy redirect | Redirects to `/` |
 | `/help` | Public | Help and guidance |
 | `/settings` | Public | PWA settings |
-| `/shelter/dashboard` | Shelter Staff | Operational dashboard |
-| `/shelter/cases` | Shelter Staff | Case management |
-| `/shelter/people` | Shelter Staff | Child/person records |
-| `/shelter/search` | Shelter Staff | Structured search + RAG |
-| `/shelter/shelters` | Shelter Staff | Shelter capacity and status |
-| `/shelter/ai` | Shelter Staff | AI assistant panel |
-| `/shelter/activity` | Shelter Staff | Activity feed / audit log |
-| `/shelter/settings` | Shelter Staff | Staff settings |
+| Separate future PWA | Shelter Staff | Child records, intake, matching, and audit workflows |
 
 ## Key architectural rules for frontend
 
-1. The frontend **only talks to the Shelter API** (`POST /api/chat`, `/api/reports`, etc.). It must never call MCP, Qdrant, or PostgreSQL directly.
-2. The `/report` route is the **new found-child submission entrypoint**. It is prompt-first — do not turn it into a traditional form.
-3. Image uploads on `/report` go through the Shelter API, never directly to object storage.
-4. The public experience (`/`, `/report`, `/chat`) is mobile-first and uses the bottom-tab-bar navigation pattern.
-5. The shelter staff experience (`/shelter/*`) uses the sidebar + topbar shell.
+1. The frontend only talks to the Shelter API, currently `POST /api/agent` with `{ prompt }`.
+2. The backend decides whether to find an intake shelter, submit a found-child report, search for a missing child, or ask a follow-up question.
+3. The client never selects MCP functions, constructs tool arguments, or calls MCP, Qdrant, PostgreSQL, or object storage directly.
+4. A shelter means an authorized child-care or child-intake location, not a general homelessness or local-assistance service.
+5. Shelter administration is a separate future PWA and is not part of this client repository.
 6. Never show unverified AI match results to the public user as confirmed facts.

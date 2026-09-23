@@ -3,14 +3,13 @@ import { PublicShell } from "@/components/public/PublicShell";
 
 export const metadata: Metadata = {
   title: "Shelter AI",
-  description: "Report a found child or search for a missing child.",
+  description: "A single prompt for finding help, reporting a child, or searching for someone missing.",
 };
 
 /**
  * PublicLayout
  *
- * Wraps all public-facing routes in the mobile-first PublicShell
- * (sticky topbar + bottom tab bar). See components/public/PublicShell.
+ * Wraps the public prompt experience in the mobile-first Wayfind shell.
  */
 export default function PublicLayout({
   children,

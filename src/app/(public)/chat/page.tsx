@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import { ChatInterface } from "@/components/public/ChatInterface";
+import { redirect } from "next/navigation";
 
 export const metadata: Metadata = {
   title: "Conversation",
 };
 
 export default function ChatPage() {
-  return <ChatInterface />;
+  redirect("/");
 }

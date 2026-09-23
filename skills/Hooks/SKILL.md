@@ -36,7 +36,8 @@ See [`hook_skill_documentation`](./hook_skill_documentation) for the full guardr
 
 ## Frontend implications
 
-- The `/report` found-child submission route must **never** show a "match found!" confirmation to the public user. Surface guidance only: "Your report has been submitted. Contact [authority] for next steps."
-- Image upload components must display a clear "Your image will be safety-checked before processing" notice.
+- The single public prompt flow must **never** show a "match found!" confirmation to the public user. Surface guidance only: "Your information has been sent to the appropriate child-support team."
+- If a user asks where to bring a found child, the backend may route them to an authorized child-intake shelter. This is not a general housing or local-assistance search.
+- Found-child submission, intake-shelter lookup, and image handling remain backend/MCP responsibilities; the client only sends the prompt.
 - The public chat interface must never display a candidate match as a verified identity.
 - All match confidence is shown only in the shelter-staff UI, never the public UI.

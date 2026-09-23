@@ -17,11 +17,13 @@ export function usePwa() {
   const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [isInstallable, setIsInstallable] = useState(false);
   const [isOnline, setIsOnline] = useState(true);
+  const [isInstalled, setIsInstalled] = useState(false);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
 
     setIsOnline(navigator.onLine);
+    setIsInstalled(window.matchMedia("(display-mode: standalone)").matches || Boolean((navigator as Navigator & { standalone?: boolean }).standalone));
 
     const handleOnline = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
@@ -35,6 +37,7 @@ export function usePwa() {
     const handleAppInstalled = () => {
       setInstallPrompt(null);
       setIsInstallable(false);
+      setIsInstalled(true);
     };
 
     window.addEventListener("online", handleOnline);
@@ -61,6 +64,7 @@ export function usePwa() {
 
   return {
     isInstallable,
+    isInstalled,
     isOnline,
     triggerInstall,
   };

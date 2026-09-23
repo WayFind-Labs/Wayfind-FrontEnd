@@ -11,8 +11,9 @@ const CACHE_NAME = "wayfind-cache-v1";
 const PRECACHE_ASSETS = [
   "/",
   "/manifest.webmanifest",
-  "/icons/icon-192.png",
-  "/icons/icon-512.png"
+  "/icons/android-chrome-192x192.png",
+  "/icons/android-chrome-512x512.png",
+  "/icons/WayFindAppLogoWidget.jpg"
 ];
 
 self.addEventListener("install", (event) => {

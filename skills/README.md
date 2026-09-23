@@ -28,9 +28,10 @@ Before making **any** change to this codebase:
 
 ## Key project constraints (summary)
 
-- **Public UI** (`/`, `/report`, `/chat`) is prompt-first, mobile-first, and uses a bottom tab bar.
-- **`/report`** is the found-child direct submission route — the new primary public feature.
-- **Shelter staff UI** (`/shelter/*`) uses the sidebar + topbar operational shell.
-- The frontend only calls the **Shelter API** — never MCP, Qdrant, or PostgreSQL directly.
+- **Public UI** (`/`) is a single prompt-first, mobile-first AI agent. Users do not choose between report and search flows.
+- Wayfind shelters are authorized child-care and child-intake locations; this is not a general housing or local-assistance directory.
+- The backend receives the prompt and decides which MCP function to call. The client never selects MCP tools.
+- **Shelter administration** will be implemented in a separate PWA, outside this client repository.
+- The frontend only calls the **Shelter API** — never MCP, Qdrant, PostgreSQL, or object storage directly.
 - Candidate matches are **never** shown to public users as confirmed identities.
-- All images pass a safety scan before processing (Hook #1).
+- Media safety checks and any follow-up collection are backend-owned.
