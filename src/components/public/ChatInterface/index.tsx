@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import type { ConversationTurn } from "@/types/public";
+import { AgentEvent, sendUserMessage } from "@/lib/api/client";
 import { MessageInput } from "./MessageInput";
 import { MessageList } from "./MessageList";
 
 const examples = [
-  "I found a child ...",
-  "I am looking to find a child ...",
+  "I found a child alone near Saddar",
+  "I am looking for my 8-year-old son who went missing in Gulberg",
+  "Where is the nearest authorized child intake shelter?",
 ];
 
 export function ChatInterface() {
@@ -17,23 +19,59 @@ export function ChatInterface() {
 
   async function handleSend(content: string) {
     const now = new Date().toISOString();
-    setMessages((current) => [...current, { id: `user-${now}`, role: "user", content, status: "completed", timestamp: now }]);
+    setMessages((current) => [
+      ...current,
+      { id: `user-${Date.now()}`, role: "user", content, status: "completed", timestamp: now },
+    ]);
     setIsProcessing(true);
     setError(null);
 
     try {
-      const response = await fetch("/api/agent", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ prompt: content }),
-      });
-      if (!response.ok) throw new Error("The assistant could not be reached.");
-      const data = (await response.json()) as { message?: string };
-      if (!data.message) throw new Error("The assistant returned an empty response.");
-      const assistantMessage = data.message;
-      setMessages((current) => [...current, { id: `agent-${Date.now()}`, role: "agent", content: assistantMessage, status: "completed", timestamp: new Date().toISOString() }]);
+      const events: AgentEvent[] = await sendUserMessage(content);
+
+      if (!events || events.length === 0) {
+        throw new Error("The assistant returned an empty response.");
+      }
+
+      const newTurns: ConversationTurn[] = [];
+      for (const evt of events) {
+        const timestamp = new Date().toISOString();
+        if (evt.type === "assistant_message" && evt.content) {
+          newTurns.push({
+            id: `agent-${Date.now()}-${Math.random()}`,
+            role: "agent",
+            content: evt.content,
+            status: "completed",
+            timestamp,
+          });
+        } else if (evt.type === "error" && evt.message) {
+          newTurns.push({
+            id: `agent-${Date.now()}-${Math.random()}`,
+            role: "agent",
+            content: evt.message,
+            status: "error",
+            timestamp,
+          });
+        } else if (evt.type === "submission_complete" && evt.record_id) {
+          newTurns.push({
+            id: `agent-${Date.now()}-${Math.random()}`,
+            role: "agent",
+            content: `Report successfully submitted. Reference number: ${evt.record_id}`,
+            status: "completed",
+            timestamp,
+          });
+        }
+      }
+
+      if (newTurns.length > 0) {
+        setMessages((current) => [...current, ...newTurns]);
+      }
     } catch (requestError) {
-      setError(requestError instanceof Error ? requestError.message : "The assistant could not be reached.");
+      setError(
+        requestError instanceof Error
+          ? requestError.message
+          : "The assistant could not be reached. Please check your connection."
+      );
     } finally {
       setIsProcessing(false);
     }
