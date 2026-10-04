@@ -5,6 +5,7 @@ import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { usePwa } from "@/hooks/use-pwa";
+import { useShell } from "./ShellContext";
 
 /**
  * PublicShell
@@ -13,11 +14,20 @@ import { usePwa } from "@/hooks/use-pwa";
  * - Sticky topbar with Wayfind branding
  * - Scrollable content area
  * - Focused top bar with one expandable help menu
+ *
+ * The `contentClass` prop can be passed by child pages to override the
+ * scroll behaviour of the main content area (e.g. "agent-shell" for the
+ * chat view which manages its own internal scrolling).
  */
-export function PublicShell({ children }: { children: React.ReactNode }) {
+export function PublicShell({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const pathname = usePathname();
   const router = useRouter();
   const { isInstalled, triggerInstall } = usePwa();
+  const { contentClass } = useShell();
   const [isHelpOpen, setIsHelpOpen] = useState(false);
   const helpMenuRef = useRef<HTMLDivElement>(null);
 
@@ -35,7 +45,7 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className={`public-shell${pathname === "/" ? " agent-shell" : ""}`}>
+    <div className="public-shell">
       {/* Skip link for accessibility */}
       <a className="skip-link" href="#main-content">Skip to content</a>
 
@@ -66,7 +76,7 @@ export function PublicShell({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* Main scrollable content */}
-      <main id="main-content" className="public-content" tabIndex={-1}>
+      <main id="main-content" className={`public-content${contentClass ? ` ${contentClass}` : ""}`} tabIndex={-1}>
         {children}
       </main>
 

@@ -1,11 +1,41 @@
-import type { Metadata } from "next";
-import { ChatInterface } from "@/components/public/ChatInterface";
+"use client";
 
-export const metadata: Metadata = {
-  title: "Wayfind assistant",
-  description: "A single prompt for finding help, reporting a child, or searching for someone missing.",
-};
+import { useState, useCallback } from "react";
+import { LandingPage, Scenario } from "@/components/public/LandingPage";
+import { ChatInterface } from "@/components/public/ChatInterface";
+import { useShell } from "@/components/public/PublicShell/ShellContext";
+
+interface ActiveSession {
+  scenario: Scenario;
+  seedMessage: string;
+}
 
 export default function PublicPage() {
-  return <ChatInterface />;
+  const [session, setSession] = useState<ActiveSession | null>(null);
+  const { setContentClass } = useShell();
+
+  const handleSelectScenario = useCallback(
+    (scenario: Scenario, seedMessage: string) => {
+      setContentClass("agent-shell");
+      setSession({ scenario, seedMessage });
+    },
+    [setContentClass]
+  );
+
+  const handleBack = useCallback(() => {
+    setContentClass("");
+    setSession(null);
+  }, [setContentClass]);
+
+  if (session) {
+    return (
+      <ChatInterface
+        scenario={session.scenario}
+        seedMessage={session.seedMessage}
+        onBack={handleBack}
+      />
+    );
+  }
+
+  return <LandingPage onSelectScenario={handleSelectScenario} />;
 }

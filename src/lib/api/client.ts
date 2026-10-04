@@ -22,6 +22,9 @@ export interface AgentEvent {
   results?: Array<Record<string, unknown>>;
   record_id?: string;
   case_reference?: string;
+  confidence_tier?: string;
+  evidence?: Record<string, unknown>;
+  media_id?: string;
 }
 
 export interface SessionData {
@@ -182,3 +185,55 @@ export async function uploadImage(file: File): Promise<{ mediaId: string }> {
   const data = (await response.json()) as { media_id: string };
   return { mediaId: data.media_id };
 }
+
+/**
+ * Send structured form response data to the backend agent.
+ */
+export async function sendFormResponse(
+  formData: Record<string, unknown>
+): Promise<AgentEvent[]> {
+  const session = await getOrCreateSession();
+  const baseUrl = getBackendBaseUrl();
+
+  const response = await fetch(
+    `${baseUrl}/api/sessions/${session.sessionId}/messages`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${session.token}`,
+      },
+      body: JSON.stringify({
+        form_data: formData,
+      }),
+    }
+  );
+
+  if (!response.ok) {
+    if (response.status === 403 || response.status === 401) {
+      clearSession();
+      const freshSession = await getOrCreateSession();
+      const retryResponse = await fetch(
+        `${baseUrl}/api/sessions/${freshSession.sessionId}/messages`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${freshSession.token}`,
+          },
+          body: JSON.stringify({
+            form_data: formData,
+          }),
+        }
+      );
+      if (!retryResponse.ok) {
+        throw new Error("Unable to submit form details. Please try again.");
+      }
+      return (await retryResponse.json()) as AgentEvent[];
+    }
+    throw new Error("Unable to submit form details. Please try again.");
+  }
+
+  return (await response.json()) as AgentEvent[];
+}
+

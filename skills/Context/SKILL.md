@@ -2,32 +2,30 @@
 name: shelter-context
 description: >
   Authoritative product, UX, architecture, safety, and development context for
-  the Wayfind public AI agent client. Wayfind focuses on found-child intake,
-  missing-child searches, and routing people to authorized child-intake shelters.
-  Use alongside `shelter-hooks` and `wayfind-design-system`.
+  the Wayfind public PWA client, including 1-Click SOS, temporal search,
+  finder-guardian communication gateway, and Empathetic Crisis Companion.
 ---
 
-<!-- Full content lives in contextSkill.md in this same folder. -->
-<!-- This file exists so the agent customization system can discover the skill by SKILL.md convention. -->
+# Shelter / Wayfind Client Context
 
-See [`contextSkill.md`](./contextSkill.md) for the full context document.
+Wayfind is a mission-critical web application for child pre-registration, missing child SOS broadcasting, found child intake, and trauma-informed crisis assistance.
 
-## Quick reference — frontend routes
+---
 
-| Route | Experience | Purpose |
-|---|---|---|
-| `/` | Public | Single prompt-first AI agent for child-safety workflows |
-| `/report` | Legacy redirect | Redirects to `/` |
-| `/chat` | Legacy redirect | Redirects to `/` |
-| `/help` | Public | Help and guidance |
-| `/settings` | Public | PWA settings |
-| Separate future PWA | Shelter Staff | Child records, intake, matching, and audit workflows |
+## Key Frontend User Journeys
 
-## Key architectural rules for frontend
-
-1. The frontend only talks to the Shelter API, currently `POST /api/agent` with `{ prompt }`.
-2. The backend decides whether to find an intake shelter, submit a found-child report, search for a missing child, or ask a follow-up question.
-3. The client never selects MCP functions, constructs tool arguments, or calls MCP, Qdrant, PostgreSQL, or object storage directly.
-4. A shelter means an authorized child-care or child-intake location, not a general homelessness or local-assistance service.
-5. Shelter administration is a separate future PWA and is not part of this client repository.
-6. Never show unverified AI match results to the public user as confirmed facts.
+1. **Single Landing Page (Replaces Chat-First Home Page):**
+   - Clean, lightweight entry point with three distinct scenario cards:
+     - **Card 1: I want to register my child on Wayfind** → triggers child pre-registration flow (`REGISTERED_SAFE`).
+     - **Card 2: I am looking for my lost child** → if registered children exist, shows them by name with option to select or add new; if none exist or looking for someone else's child, goes straight to search/reporting.
+     - **Card 3: I just found a lost child** → immediate safety guidance + report flow.
+2. **Pre-Seeded Conversational Intake & Crisis Companion:**
+   - Tapping any scenario card transitions into the conversational/AI flow with the user intent pre-seeded.
+   - **Light, progressive UX:** No overwhelming long forms dumped at once; details collected step-by-step with explicit "Unknown" toggles serializing to `null`.
+   - Distraught parent de-escalation, immediate physical search checklists, and finder safety guidance.
+3. **Guardian Dashboard & Registered Child Profiles:**
+   - View and manage pre-registered children, quick-launch missing reports.
+4. **Masked Communication Bridge:**
+   - Secure calling/messaging connecting citizen finder and verified guardian without exposing raw phone numbers.
+5. **Staff Review Dashboard (`/shelter/cases` / `/admin/review`):**
+   - Side-by-side evidence review for shelter staff prior to releasing contact/location information.

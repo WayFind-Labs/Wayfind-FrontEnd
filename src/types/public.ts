@@ -14,6 +14,11 @@ export interface ConversationTurn {
   status: "idle" | "processing" | "completed" | "error";
   timestamp: string;
   suggestedActions?: string[];
+  formFields?: string[];
+  requiresImage?: boolean;
+  caseReference?: string;
+  confidenceTier?: string;
+  formDataSubmitted?: boolean;
 }
 
 /** The only request shape the public client sends to the backend agent. */
