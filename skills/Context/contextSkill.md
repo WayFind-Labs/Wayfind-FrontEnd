@@ -50,3 +50,18 @@ Wayfind provides a fast, accessible, trauma-informed interface for child safety,
 - Every field (Hair Color, Eye Color, Height, Skin Tone, Clothing) must feature a distinct **"Unknown / Don't Know"** toggle.
 - When toggled, the input is disabled and the field is serialized as `null` in the JSON request body.
 - Age and Height support both single numbers and range bounds.
+
+---
+
+## Decoupled Biometric Vision Architecture (Future Roadmap)
+
+1. **Standalone Microservice Design:**
+   - Biometric face embedding and comparison will be built as a separate microservice later.
+   - Core functions: (1) `POST /api/biometrics/embed` (image $\rightarrow$ 512-D vector), (2) `POST /api/biometrics/match` (cosine similarity against candidate vectors).
+2. **Deterministic Significance Gating:**
+   - Biometrics are **never called unconditionally**.
+   - Triggered only when pre-filtered metadata `significance_score >= 0.60`.
+3. **Deterministic Evidence Scoring (Zero LLM):**
+   - Composite matching score is purely mathematical without LLM dependency.
+4. **Loosely Coupled Integration:**
+   - The system connects via `ImageBackendClient` and falls back gracefully when the biometric service is offline.

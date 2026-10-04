@@ -29,3 +29,7 @@ Wayfind is a mission-critical web application for child pre-registration, missin
    - Secure calling/messaging connecting citizen finder and verified guardian without exposing raw phone numbers.
 5. **Staff Review Dashboard (`/shelter/cases` / `/admin/review`):**
    - Side-by-side evidence review for shelter staff prior to releasing contact/location information.
+6. **Decoupled Biometric Vision Architecture (Future Roadmap):**
+   - Biometric face embedding and matching will run as a separate microservice (`/api/biometrics/embed` & `/api/biometrics/match`).
+   - Triggered only when pre-filtered demographic metadata has `significance_score >= 0.60`.
+   - Evidence scoring is purely deterministic without LLM calls.
