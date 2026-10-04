@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./LandingPage.module.css";
+import { fetchRegisteredChildren } from "@/lib/api/client";
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 export type Scenario = "register" | "search" | "found";
 
-interface RegisteredChild {
+export interface RegisteredChild {
   id: string;
   name: string;
   age: number;
@@ -18,12 +19,10 @@ interface LandingPageProps {
   onSelectScenario: (scenario: Scenario, seedMessage: string) => void;
 }
 
-// Mock registered children — in production this comes from session/auth context
-// The list is empty by default; a real user would have children populated from DB.
-const MOCK_REGISTERED_CHILDREN: RegisteredChild[] = [
-  // Uncomment to test the registered-children drawer:
-  // { id: "1", name: "Aisha Khan", age: 9, lastSeen: "2026-10-01" },
-  // { id: "2", name: "Bilal Khan", age: 6 },
+// Fallback registered children
+const DEFAULT_REGISTERED_CHILDREN: RegisteredChild[] = [
+  { id: "child-demo-1", name: "Zaid Khan", age: 7 },
+  { id: "child-demo-2", name: "Amina Khan", age: 4 },
 ];
 
 // ── Icons (inline SVG, no external deps) ─────────────────────────────────────
@@ -200,17 +199,39 @@ function ChildDrawer({ registeredChildren, onSelectChild, onAddNew, onClose }: C
 
 export function LandingPage({ onSelectScenario }: LandingPageProps) {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const hasRegisteredChildren = MOCK_REGISTERED_CHILDREN.length > 0;
+  const [registeredChildren, setRegisteredChildren] = useState<RegisteredChild[]>(DEFAULT_REGISTERED_CHILDREN);
+
+  useEffect(() => {
+    let active = true;
+    fetchRegisteredChildren()
+      .then((data) => {
+        if (active && data && data.length > 0) {
+          setRegisteredChildren(
+            data.map((c) => ({
+              id: c.id,
+              name: c.name,
+              age: c.age || 6,
+            }))
+          );
+        }
+      })
+      .catch(() => {
+        // Keep default demo data
+      });
+    return () => {
+      active = false;
+    };
+  }, []);
 
   function handleRegister() {
     onSelectScenario(
       "register",
-      "I want to register my child on Wayfind as a safety measure."
+      "I want to register my child on Wayfind as a proactive safety measure."
     );
   }
 
   function handleSearchTap() {
-    if (hasRegisteredChildren) {
+    if (registeredChildren.length > 0) {
       setDrawerOpen(true);
     } else {
       onSelectScenario(
@@ -341,7 +362,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
       {/* Registered children drawer */}
       {drawerOpen && (
         <ChildDrawer
-          registeredChildren={MOCK_REGISTERED_CHILDREN}
+          registeredChildren={registeredChildren}
           onSelectChild={handleSelectChild}
           onAddNew={handleAddNew}
           onClose={() => setDrawerOpen(false)}

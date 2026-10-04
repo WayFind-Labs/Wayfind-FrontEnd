@@ -237,3 +237,59 @@ export async function sendFormResponse(
   return (await response.json()) as AgentEvent[];
 }
 
+export interface RegisteredChildItem {
+  id: string;
+  name: string;
+  age?: number;
+  gender?: string;
+  status: string;
+  registered_at?: string;
+}
+
+/**
+ * Fetch registered children for a guardian from backend API.
+ */
+export async function fetchRegisteredChildren(
+  guardianId: string = "demo-guardian-1"
+): Promise<RegisteredChildItem[]> {
+  const baseUrl = getBackendBaseUrl();
+  try {
+    const response = await fetch(`${baseUrl}/api/guardians/${guardianId}/children`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!response.ok) {
+      return [];
+    }
+
+    return (await response.json()) as RegisteredChildItem[];
+  } catch {
+    return [];
+  }
+}
+
+/**
+ * Direct REST child pre-registration without conversational turns.
+ */
+export async function registerChildDirect(
+  data: Record<string, unknown>
+): Promise<{ success: boolean; child_id: string; guardian_id: string; message: string }> {
+  const baseUrl = getBackendBaseUrl();
+  const response = await fetch(`${baseUrl}/api/guardians/register-child`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to register child profile.");
+  }
+
+  return await response.json();
+}
+
