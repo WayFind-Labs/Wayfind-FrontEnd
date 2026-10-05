@@ -65,3 +65,14 @@ Wayfind provides a fast, accessible, trauma-informed interface for child safety,
    - Composite matching score is purely mathematical without LLM dependency.
 4. **Loosely Coupled Integration:**
    - The system connects via `ImageBackendClient` and falls back gracefully when the biometric service is offline.
+
+---
+
+## Mandatory Development Guardrails
+
+1. **Git Push & Commit Discipline:**
+   - Always commit and `git push` to remote after any meaningful coding or writing task.
+   - Use clear Conventional Commits messages (`feat:`, `fix:`, `docs:`, etc.) that explain the work done.
+2. **Context Synchronization:**
+   - If work adds to or modifies the project scope, architecture, routes, or workflows, update `skills/Context/SKILL.md`, `skills/Context/contextSkill.md`, and `README.md` immediately.
+

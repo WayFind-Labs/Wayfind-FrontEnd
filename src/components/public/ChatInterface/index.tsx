@@ -86,8 +86,9 @@ export function ChatInterface({ seedMessage, scenario, onBack }: ChatInterfacePr
           timestamp,
           caseReference: evt.case_reference,
           confidenceTier: evt.confidence_tier,
+          reviewPending: true,
         });
-      } else if (evt.type === "submission_complete" && (evt.record_id || evt.case_reference)) {
+      } else if (evt.type === "submission_complete" && !events.some((e) => e.type === "assistant_message")) {
         newTurns.push({
           id: uniqueId,
           role: "agent",

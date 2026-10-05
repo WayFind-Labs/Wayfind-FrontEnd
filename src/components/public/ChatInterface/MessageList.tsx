@@ -48,7 +48,7 @@ export function MessageList({
             )}
 
             {/* Case review reference card from review_pending */}
-            {message.caseReference && (
+            {message.reviewPending && message.caseReference && (
               <InlineCaseReviewCard
                 caseReference={message.caseReference}
                 confidenceTier={message.confidenceTier}

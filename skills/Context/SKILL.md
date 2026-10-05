@@ -33,3 +33,13 @@ Wayfind is a mission-critical web application for child pre-registration, missin
    - Biometric face embedding and matching will run as a separate microservice (`/api/biometrics/embed` & `/api/biometrics/match`).
    - Triggered only when pre-filtered demographic metadata has `significance_score >= 0.60`.
    - Evidence scoring is purely deterministic without LLM calls.
+
+---
+
+## Mandatory Development Guardrails
+
+1. **Git Commit & Push Policy:**
+   - After completing meaningful writing or coding work, immediately stage, commit, and `git push` to remote.
+   - Write descriptive, understandable commit messages (Conventional Commits format) explaining what was done.
+2. **Context Synchronization:**
+   - Whenever changes are made to workflows, UI components, routes, or features, update the project context files (`skills/Context/SKILL.md`, `skills/Context/contextSkill.md`, `README.md`) immediately so context stays completely synchronized.

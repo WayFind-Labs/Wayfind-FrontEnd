@@ -9,6 +9,11 @@ interface InlineFormCardProps {
 }
 
 const FIELD_LABELS: Record<string, { label: string; placeholder: string; type: "text" | "number" | "select" | "radio"; options?: string[] }> = {
+  name: {
+    label: "Child's Full Name",
+    placeholder: "e.g. Zayn Malik",
+    type: "text",
+  },
   gender: {
     label: "Gender",
     placeholder: "Select gender",
@@ -19,6 +24,21 @@ const FIELD_LABELS: Record<string, { label: string; placeholder: string; type: "
     label: "Age (Years)",
     placeholder: "e.g. 7",
     type: "number",
+  },
+  city: {
+    label: "Home City / Area",
+    placeholder: "e.g. Lahore / DHA Phase 5",
+    type: "text",
+  },
+  medical_notes: {
+    label: "Medical / Allergy Notes (Optional)",
+    placeholder: "e.g. Asthmatic, allergic to penicillin",
+    type: "text",
+  },
+  emergency_contact: {
+    label: "Emergency Contact Phone (Optional)",
+    placeholder: "e.g. +92 300 1234567",
+    type: "text",
   },
   last_seen_location: {
     label: "Last Seen Location",

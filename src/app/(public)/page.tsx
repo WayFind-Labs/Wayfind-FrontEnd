@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import { LandingPage, Scenario } from "@/components/public/LandingPage";
 import { ChatInterface } from "@/components/public/ChatInterface";
 import { useShell } from "@/components/public/PublicShell/ShellContext";
+import { clearSession } from "@/lib/api/client";
 
 interface ActiveSession {
   scenario: Scenario;
@@ -16,6 +17,7 @@ export default function PublicPage() {
 
   const handleSelectScenario = useCallback(
     (scenario: Scenario, seedMessage: string) => {
+      clearSession();
       setContentClass("agent-shell");
       setSession({ scenario, seedMessage });
     },
@@ -23,6 +25,7 @@ export default function PublicPage() {
   );
 
   const handleBack = useCallback(() => {
+    clearSession();
     setContentClass("");
     setSession(null);
   }, [setContentClass]);

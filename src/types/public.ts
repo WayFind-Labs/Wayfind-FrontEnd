@@ -18,6 +18,7 @@ export interface ConversationTurn {
   requiresImage?: boolean;
   caseReference?: string;
   confidenceTier?: string;
+  reviewPending?: boolean;
   formDataSubmitted?: boolean;
 }
 
