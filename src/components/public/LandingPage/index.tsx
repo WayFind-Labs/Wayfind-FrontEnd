@@ -289,48 +289,7 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
 
       {/* Scenario cards */}
       <main className={styles.cardGrid} aria-label="Choose your situation">
-        <button
-          type="button"
-          className={`${styles.scenarioCard} ${styles.cardRegister}`}
-          onClick={handleRegister}
-          id="card-register-child"
-          aria-describedby="desc-register"
-        >
-          <span className={`${styles.cardIcon} ${styles.iconAccent}`}>
-            <IconChild />
-          </span>
-          <div className={styles.cardBody}>
-            <h2 className={styles.cardTitle}>I want to register my child on Wayfind</h2>
-            <p id="desc-register" className={styles.cardDesc}>
-              Create a safety record for your child before anything happens. Takes about 5 minutes.
-            </p>
-          </div>
-          <span className={styles.cardChevron}>
-            <IconArrow />
-          </span>
-        </button>
-
-        <button
-          type="button"
-          className={`${styles.scenarioCard} ${styles.cardSearch}`}
-          onClick={handleSearchTap}
-          id="card-search-child"
-          aria-describedby="desc-search"
-        >
-          <span className={`${styles.cardIcon} ${styles.iconError}`}>
-            <IconSearch />
-          </span>
-          <div className={styles.cardBody}>
-            <h2 className={styles.cardTitle}>I am looking for my lost child</h2>
-            <p id="desc-search" className={styles.cardDesc}>
-              Search our records, activate an alert, and connect with local shelters immediately.
-            </p>
-          </div>
-          <span className={styles.cardChevron}>
-            <IconArrow />
-          </span>
-        </button>
-
+        {/* Primary Hero Flow: Found a Child (MVP Core) */}
         <button
           type="button"
           className={`${styles.scenarioCard} ${styles.cardFound}`}
@@ -342,9 +301,68 @@ export function LandingPage({ onSelectScenario }: LandingPageProps) {
             <IconHand />
           </span>
           <div className={styles.cardBody}>
-            <h2 className={styles.cardTitle}>I just found a lost child — what do I do?</h2>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
+              <span className="badge badge-teal" style={{ fontSize: "11px", padding: "2px 8px" }}>
+                Active Guidance MVP
+              </span>
+            </div>
+            <h2 className={styles.cardTitle}>I found an unaccompanied child — what do I do?</h2>
             <p id="desc-found" className={styles.cardDesc}>
-              We&apos;ll guide you on keeping the child safe and help report to the right authorities.
+              Should you call the police, an orphanage, or share photos on WhatsApp groups? If you don&apos;t know, don&apos;t worry — Wayfind will guide you immediately on safe, lawful child protection protocols.
+            </p>
+          </div>
+          <span className={styles.cardChevron}>
+            <IconArrow />
+          </span>
+        </button>
+
+        {/* Roadmap Feature 1: Missing Child Search */}
+        <button
+          type="button"
+          className={`${styles.scenarioCard} ${styles.cardSearch}`}
+          onClick={handleSearchTap}
+          id="card-search-child"
+          aria-describedby="desc-search"
+        >
+          <span className={`${styles.cardIcon} ${styles.iconError}`}>
+            <IconSearch />
+          </span>
+          <div className={styles.cardBody}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
+              <span className="badge badge-secondary" style={{ fontSize: "11px", padding: "2px 8px" }}>
+                Pitch Roadmap
+              </span>
+            </div>
+            <h2 className={styles.cardTitle}>I am looking for my lost child</h2>
+            <p id="desc-search" className={styles.cardDesc}>
+              Search shelter records with temporal time-windowing and match against incoming found reports.
+            </p>
+          </div>
+          <span className={styles.cardChevron}>
+            <IconArrow />
+          </span>
+        </button>
+
+        {/* Roadmap Feature 2: Pre-Register Child */}
+        <button
+          type="button"
+          className={`${styles.scenarioCard} ${styles.cardRegister}`}
+          onClick={handleRegister}
+          id="card-register-child"
+          aria-describedby="desc-register"
+        >
+          <span className={`${styles.cardIcon} ${styles.iconAccent}`}>
+            <IconChild />
+          </span>
+          <div className={styles.cardBody}>
+            <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
+              <span className="badge badge-secondary" style={{ fontSize: "11px", padding: "2px 8px" }}>
+                Pitch Roadmap
+              </span>
+            </div>
+            <h2 className={styles.cardTitle}>Register child on Wayfind (Proactive)</h2>
+            <p id="desc-register" className={styles.cardDesc}>
+              Create an encrypted baseline profile (physical data &amp; emergency contacts) for 1-click SOS broadcast.
             </p>
           </div>
           <span className={styles.cardChevron}>

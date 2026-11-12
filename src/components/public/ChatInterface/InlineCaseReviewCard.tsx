@@ -70,6 +70,22 @@ export function InlineCaseReviewCard({
       <p className="inline-review-footer">
         Our team will contact you once verification is complete. You do not need to resubmit.
       </p>
+
+      <div style={{ marginTop: "12px", padding: "10px 12px", background: "rgba(239, 68, 68, 0.08)", border: "1px solid rgba(239, 68, 68, 0.25)", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "space-between", gap: "8px" }}>
+        <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+          <span style={{ fontSize: "16px" }}>🆘</span>
+          <span style={{ fontSize: "12px", color: "var(--ink)", fontWeight: 500 }}>
+            Child Emergency Helpline: <strong>1098</strong>
+          </span>
+        </div>
+        <a
+          href="tel:1098"
+          className="btn btn-sm btn-error"
+          style={{ fontSize: "11px", padding: "3px 10px", height: "auto" }}
+        >
+          Call 1098
+        </a>
+      </div>
     </div>
   );
 }
